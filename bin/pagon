@@ -4,7 +4,7 @@
 $command_dir = dirname(__DIR__);
 $app_root = getcwd();
 
-require $command_dir . '/vendor/autoload.php';
+require $app_root . '/vendor/autoload.php';
 
 use Pagon\Pagon;
 
