@@ -9,9 +9,7 @@
       "email": "hfcorriez@gmail.com"
     }
   ],
-  "config": {
-    "bin-dir": "bin"
-  },
+  "bin": ["bin/pagon"],
   "require": {
     "php": ">=5.3.9",
     "pagon/framework": "dev-master",
