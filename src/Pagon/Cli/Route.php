@@ -1,6 +1,6 @@
 <?php
 
-namespace Command;
+namespace Pagon\Cli;
 
 use Pagon\Route\Command;
 

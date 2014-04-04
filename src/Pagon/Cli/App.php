@@ -1,6 +1,6 @@
 <?php
 
-namespace Command;
+namespace Pagon\Cli;
 
 use Pagon\Config\Ini;
 use Pagon\Console;

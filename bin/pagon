@@ -10,14 +10,14 @@ use Pagon\Pagon;
 
 // Create application
 $app = Pagon::create(array(
-    'namespaces' => array('Command' => $command_dir . '/src'),
+    'namespaces' => array('Pagon\Cli' => $command_dir . '/src'),
     'command'    => array(
-        'app_root' => $app_root,
-        'app_dir'  => $app_root . '/app',
-        'public_dir'  => $app_root . '/public'
+        'app_root'   => $app_root,
+        'app_dir'    => $app_root . '/app',
+        'public_dir' => $app_root . '/public'
     )
 ));
 
-$app->autoRoute('Command');
+$app->autoRoute('Pagon\Cli');
 
 $app->run();
