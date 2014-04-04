@@ -9,9 +9,13 @@ use Pagon\Route\Command;
 class App extends Command
 {
     protected $arguments = array(
-        'action' => array(
+        'command' => array(
             'help' => 'Action to do',
-            'enum' => array('config', 'env', 'version')
+            'enum' => array(
+                'config'  => 'Current config',
+                'env'     => 'Current env',
+                'version' => 'Current version'
+            )
         ),
     );
 
@@ -19,7 +23,7 @@ class App extends Command
     {
         $app = include($this->app->command['app_dir'] . '/bootstrap.php');
 
-        switch ($this->params['action']) {
+        switch ($this->params['command']) {
             case "config":
                 $config = array();
                 foreach ($app->raw() as $key => $value) {
@@ -42,7 +46,7 @@ class App extends Command
                 }
                 break;
             default:
-                echo Console::text("未知的操作: {$this->params['action']}", 'redbg', true);
+                echo Console::text("未知的操作: {$this->params['command']}", 'redbg', true);
                 break;
         }
     }

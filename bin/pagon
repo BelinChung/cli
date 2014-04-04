@@ -7,6 +7,7 @@ $app_root = getcwd();
 require $app_root . '/vendor/autoload.php';
 
 use Pagon\Pagon;
+use Pagon\Console;
 
 // Create application
 $app = Pagon::create(array(
@@ -19,5 +20,26 @@ $app = Pagon::create(array(
 ));
 
 $app->autoRoute('Pagon\Cli');
+
+$app->add($app->router);
+$app->add(function () use ($argv) {
+    echo 'Usage: ' . $argv[0] . ' <command>' . PHP_EOL;
+
+    echo PHP_EOL . Console::text('app', 'bold') . str_pad(' <command>', 22, ' ') . 'Application usage' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('config', 23, ' ') . 'Current config to use' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('version', 23, ' ') . 'Current version of pagon' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('env', 23, ' ') . 'Get current mode' . PHP_EOL;
+
+    echo PHP_EOL . Console::text('serve', 'bold') . str_pad(' [args]', 20, ' ') . 'Application usage' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('-p, --port', 23, ' ') . 'Port to listen, defualt is 5000' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('-i, --ip', 23, ' ') . 'IP to listen, default is 127.0.0.1' . PHP_EOL;
+
+    echo PHP_EOL . Console::text('route', 'bold') . str_pad(' <method> <path>', 20, ' ') . 'Mock http route call' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('get <path>', 23, ' ') . 'GET path' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('post <path>', 23, ' ') . 'POST path' . PHP_EOL;
+    echo str_repeat(' ', 2) . str_pad('... <path>', 23, ' ') . '<METHOD> path' . PHP_EOL;
+
+    echo PHP_EOL . 'Pagon: ' . \Pagon\VERSION . PHP_EOL;
+});
 
 $app->run();
