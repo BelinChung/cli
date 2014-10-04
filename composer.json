@@ -1,7 +1,10 @@
 {
   "name": "pagon/cli",
   "description": "Pagon command line",
-  "keywords": ["pagon", "cli"],
+  "keywords": [
+    "pagon",
+    "cli"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -12,7 +15,7 @@
   "bin": ["bin/pagon"],
   "require": {
     "php": ">=5.3.9",
-    "pagon/framework": "dev-master",
+    "pagon/framework": "0.8.*",
     "react/http": "0.3.*"
   },
   "require-dev": {}
