@@ -34,7 +34,8 @@ class Serve extends Route\Command
                     . ' <cyan>' . str_pad($request->getMethod(), 6, ' ', STR_PAD_RIGHT) . '</cyan>'
                     . ' ' . $request->getPath(), true);
 
-                $ext = array_pop(explode('.', $static_file));
+                $_arr = explode('.', $static_file);
+                $ext = end($_arr);
                 $mimes = Config::export('mimes');
 
                 $response->writeHead(200, array('Content-Type' => isset($mimes[$ext]) ? $mimes[$ext][0] : mime_content_type($static_file)));
