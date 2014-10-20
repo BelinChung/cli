@@ -10,20 +10,21 @@ class Serve extends Route\Command
 {
     protected $arguments = array(
         '-p|--port' => array('help' => 'Port to listen'),
-        '-i|--ip'      => array('help' => 'IP address to listen', 'default' => '127.0.0.1')
+        '-i|--ip'   => array('help' => 'IP address to listen', 'default' => '127.0.0.1')
     );
 
     public function run($req, $res)
     {
         $port = $this->params['port'] ? $this->params['port'] : '5000';
         $command_app = $this->app;
+        $default_headers = array('X-Powered-By' => 'Pagon/0.8');
 
         /**
          * Mock Application and init
          */
         $app = include($command_app->command['app_dir'] . '/bootstrap.php');
 
-        $server_app = function ($request, $response) use ($port, $app, $command_app) {
+        $server_app = function ($request, $response) use ($port, $app, $command_app, $default_headers) {
             /**
              * Static file check and render
              */
@@ -38,7 +39,7 @@ class Serve extends Route\Command
                 $ext = end($_arr);
                 $mimes = Config::export('mimes');
 
-                $response->writeHead(200, array('Content-Type' => isset($mimes[$ext]) ? $mimes[$ext][0] : mime_content_type($static_file)));
+                $response->writeHead(200, $default_headers + array('Content-Type' => isset($mimes[$ext]) ? $mimes[$ext][0] : mime_content_type($static_file)));
                 $response->end(file_get_contents($static_file));
                 return;
             }
@@ -94,7 +95,7 @@ class Serve extends Route\Command
             /**
              * Pagon header inject
              */
-            $mock_res->on('header', function () use ($response, $request, $mock_res, $mock_req) {
+            $mock_res->on('header', function () use ($response, $request, $mock_res, $mock_req, $default_headers) {
                 echo Console::text(
                     ($mock_res->status < 400 ? "<green>$mock_res->status</green>" : "<red>$mock_res->status</red>")
                     . ' <cyan>' . str_pad($request->getMethod(), 6, ' ', STR_PAD_RIGHT) . '</cyan>'
@@ -107,7 +108,7 @@ class Serve extends Route\Command
                 }
 
                 try {
-                    $response->writeHead($mock_res->status, $headers);
+                    $response->writeHead($mock_res->status, $default_headers + $headers);
                     $response->end($mock_res->body);
                 } catch (\Exception $e) {
                     echo Console::text($e->getMessage(), 'red', true);
